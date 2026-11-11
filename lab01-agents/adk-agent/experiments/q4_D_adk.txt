@@ -1,0 +1,8 @@
+[user]: Опиши оператор screen у Ren'Py
+[root_agent]: 
+[tool_call: lookup_renpy_statement({"name": "screen"})]
+[tool_response: lookup_renpy_statement -> {"result": "NOT_FOUND"}]На жаль, у моїй базі перевірених даних немає інформації про оператор `screen`.
+
+Session: 5269b2a2-4b33-4012-abf4-d77fcf815357
+  Resume with: agents-cli run "<message>" --session-id 5269b2a2-4b33-4012-abf4-d77fcf815357
+[adk] time: 5.071 s
