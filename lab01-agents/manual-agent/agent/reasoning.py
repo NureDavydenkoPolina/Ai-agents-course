@@ -48,7 +48,9 @@ def get_client() -> genai.Client:
     """Лінива ініціалізація: тести без мережі імпортують модуль без ключа."""
     global _client
     if _client is None:
-        _client = genai.Client()  # читає GEMINI_API_KEY з оточення
+        _client = genai.Client(
+            http_options=types.HttpOptions(timeout=60000)  # мс: не чекати вічно
+        )
     return _client
 
 
@@ -92,9 +94,14 @@ def get_decision(goal: str, observations: list[str], step: int, max_steps: int) 
                 ),
             )
             break
-        except errors.ServerError as exc:  # 5xx: сервер перевантажений
-            if attempt == len(RETRY_DELAYS):
+        except (errors.ServerError, errors.ClientError) as exc:
+            # 5xx (сервер перевантажений) і 429 за хвилину повторюємо; решту не повторюємо
+            retryable = isinstance(exc, errors.ServerError) or (
+                exc.code == 429 and "PerDay" not in str(exc)
+            )
+            if not retryable or attempt == len(RETRY_DELAYS):
                 raise
-            print(f"  [retry {attempt + 1}] {exc.code}, чекаю {RETRY_DELAYS[attempt]} с")
-            time.sleep(RETRY_DELAYS[attempt])
+            delay = 45 if exc.code == 429 else RETRY_DELAYS[attempt]
+            print(f"  [retry {attempt + 1}] {exc.code}, чекаю {delay} с")
+            time.sleep(delay)
     return parse_decision(response.text)
