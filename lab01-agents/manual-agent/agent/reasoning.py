@@ -23,13 +23,16 @@ Available actions:
 1. lookup_renpy_statement
    Use it when verified information about a Ren'Py script statement is needed.
    Arguments: {"name": string} e.g. "jump", "menu", "scene"
-2. finish
+2. list_by_category
+   Use it when you need to know which statements belong to a group.
+   Arguments: {"category": string} one of "control_flow", "choices", "images"
+3. finish
    Use it when the verified observations are enough to reach the goal,
    or when the environment reported that the information does not exist.
    Arguments: {"answer": string} final answer in Ukrainian
 
 Return valid JSON only:
-{"action": "lookup_renpy_statement | finish",
+{"action": "lookup_renpy_statement | list_by_category | finish",
  "arguments": {...},
  "decision_summary": "one short sentence: why this action"}
 
@@ -61,7 +64,7 @@ def build_observation(goal: str, observations: list[str], step: int, max_steps: 
         f"GOAL:\n{goal}\n\n"
         f"CURRENT STEP: {step} of {max_steps}\n\n"
         f"VERIFIED OBSERVATIONS:\n{known}\n\n"
-        "AVAILABLE ACTIONS: lookup_renpy_statement, finish\n"
+        "AVAILABLE ACTIONS: lookup_renpy_statement, list_by_category, finish\n"
         "Choose the next action."
     )
 

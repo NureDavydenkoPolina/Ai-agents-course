@@ -3,7 +3,7 @@
 import time
 from collections.abc import Callable
 
-from .environment import lookup_renpy_statement
+from .environment import list_by_category, lookup_renpy_statement
 from .errors import DecisionError
 from .reasoning import get_decision
 from .state import AgentState
@@ -23,6 +23,9 @@ def execute_action(decision: dict, state: AgentState) -> str | None:
     if action == "lookup_renpy_statement":
         name = args["name"]
         return f"{name}: {lookup_renpy_statement(name)}"
+    if action == "list_by_category":
+        category = args["category"]
+        return f"category {category}: {list_by_category(category)}"
     if action == "finish":
         state.final_answer = args["answer"]
         state.finished = True
