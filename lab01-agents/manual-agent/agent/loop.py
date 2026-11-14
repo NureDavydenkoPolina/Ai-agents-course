@@ -10,6 +10,7 @@ from .state import AgentState
 from .validator import validate_decision
 
 MAX_STEPS = 6
+MAX_LLM_CALLS = 8
 
 # Функцію рішень передають параметром: у тестах її замінює сценарій без LLM
 DecideFn = Callable[[str, list[str], int, int], dict]
@@ -40,7 +41,8 @@ def print_step(record: dict) -> None:
 
 
 def run_agent(goal: str, decide: DecideFn = get_decision,
-              max_steps: int = MAX_STEPS) -> AgentState:
+              max_steps: int = MAX_STEPS,
+              max_llm_calls: int = MAX_LLM_CALLS) -> AgentState:
     state = AgentState(goal=goal)
     while not state.finished:
         # EVALUATE (бюджет): ліміт перевіряють до нового виклику LLM
@@ -49,6 +51,14 @@ def run_agent(goal: str, decide: DecideFn = get_decision,
             state.stop_reason = "max_steps"
             state.final_answer = (
                 f"Агент зупинився: вичерпано ліміт кроків ({max_steps}) "
+                "без фінальної відповіді."
+            )
+            break
+        if state.llm_calls >= max_llm_calls:
+            state.finished = True
+            state.stop_reason = "max_llm_calls"
+            state.final_answer = (
+                f"Агент зупинився: вичерпано ліміт викликів LLM ({max_llm_calls}) "
                 "без фінальної відповіді."
             )
             break

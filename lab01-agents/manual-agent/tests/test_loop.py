@@ -46,3 +46,10 @@ def test_missing_statement_gives_not_found():
                "decision_summary": "x"}
     state = run_agent("Опиши python", decide=scripted([missing, FINISH]))
     assert state.observations[0] == "python: NOT_FOUND"
+
+def test_stops_on_max_llm_calls():
+    forever = lambda *args: LOOKUP_JUMP
+    state = run_agent("Мета", decide=forever, max_steps=10, max_llm_calls=2)
+    assert state.stop_reason == "max_llm_calls"
+    assert state.llm_calls == 2
+    assert state.step == 2
