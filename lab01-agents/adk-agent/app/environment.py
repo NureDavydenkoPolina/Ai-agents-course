@@ -67,3 +67,29 @@ def lookup_renpy_statement(name: str) -> str:
         statement is not in the environment.
     """
     return STATEMENTS.get(normalize_name(name), NOT_FOUND)
+
+
+# Категорії за розділами документації Ren'Py
+CATEGORIES: dict[str, tuple[str, ...]] = {
+    "control_flow": ("label", "jump", "call", "return"),  # Labels & Control Flow
+    "choices": ("menu",),  # In-Game Menus
+    "images": ("scene", "show", "hide", "with"),  # Displaying Images
+}
+
+
+def list_by_category(category: str) -> str:
+    """Return the Ren'Py statements that belong to one documentation category.
+
+    Use it when the user asks which statements exist in a group, for example
+    statements that control the story flow.
+
+    Args:
+        category: One of "control_flow", "choices", "images".
+
+    Returns:
+        Comma-separated statement names, or the string "NOT_FOUND" if the
+        category does not exist.
+    """
+    key = category.strip().lower().replace("-", "_").replace(" ", "_")
+    names = CATEGORIES.get(key)
+    return ", ".join(names) if names else NOT_FOUND

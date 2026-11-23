@@ -1,0 +1,22 @@
+Starting a temporary local server on port 18080 (stops automatically when done).
+Starting a temporary local server on port 18080 (stops automatically when done).
+[user]: Які оператори Ren'Py керують потоком сценарію і чим відрізняються jump і call?
+[root_agent]: 
+[tool_call: list_by_category({"category": "control_flow"})]
+[tool_call: lookup_renpy_statement({"name": "jump"})]
+[tool_call: lookup_renpy_statement({"name": "call"})]
+[tool_response: list_by_category -> {"result": "label, jump, call, return"}]
+[tool_response: lookup_renpy_statement -> {"result": "jump \u043f\u0435\u0440\u0435\u0434\u0430\u0454 \u043a\u0435\u0440\u0443\u0432\u0430\u043d\u043d\u044f \u043d\u0430 \u0432\u043a\u0430\u0437\u0430\u043d\u0443 \u043c\u0456\u0442\u043a\u0443 \u0431\u0435\u0437 \u0437\u0431\u0435\u0440\u0435\u0436\u0435\u043d\u043d\u044f \u043c\u0456\u0441\u0446\u044f \u043f\u043e\u0432\u0435\u0440\u043d\u0435\u043d\u043d\u044f. \u041d\u0430 \u0432\u0456\u0434\u043c\u0456\u043d\u0443 \u0432\u0456\u0434 call, \u0432\u0456\u043d \u043d\u0435 \u043a\u043b\u0430\u0434\u0435 \u043d\u0430\u0441\u0442\u0443\u043f\u043d\u0438\u0439 \u043e\u043f\u0435\u0440\u0430\u0442\u043e\u0440 \u0443 \u0441\u0442\u0435\u043a \u0432\u0438\u043a\u043b\u0438\u043a\u0456\u0432."}]
+[tool_response: lookup_renpy_statement -> {"result": "call \u043f\u0435\u0440\u0435\u0434\u0430\u0454 \u043a\u0435\u0440\u0443\u0432\u0430\u043d\u043d\u044f \u043d\u0430 \u0432\u043a\u0430\u0437\u0430\u043d\u0443 \u043c\u0456\u0442\u043a\u0443 \u0456 \u043a\u043b\u0430\u0434\u0435 \u043d\u0430\u0441\u0442\u0443\u043f\u043d\u0438\u0439 \u043e\u043f\u0435\u0440\u0430\u0442\u043e\u0440 \u0443 \u0441\u0442\u0435\u043a \u0432\u0438\u043a\u043b\u0438\u043a\u0456\u0432, \u0449\u043e\u0431 \u043f\u0456\u0441\u043b\u044f return \u0432\u0438\u043a\u043e\u043d\u0430\u043d\u043d\u044f \u043f\u0440\u043e\u0434\u043e\u0432\u0436\u0438\u043b\u043e\u0441\u044f \u0437 \u043d\u044c\u043e\u0433\u043e."}]До категорії операторів, які керують потоком сценарію (`control_flow`), належать:
+- `label`
+- `jump`
+- `call`
+- `return`
+
+**Відмінність між `jump` і `call`:**
+* **`jump`** передає керування на вказану мітку без збереження місця повернення. На відміну від `call`, він не кладе наступний оператор у стек викликів.
+* **`call`** передає керування на вказану мітку і кладе наступний оператор у стек викликів, щоб після виконання `return` сценарій продовжився саме з цього місця.
+
+Session: 7d85804e-1b2e-4494-bbb1-d105065117f9
+  One-off session — add --start-server to keep the local server (and its sessions) alive so you can resume with --session-id.
+Local server stopped.
