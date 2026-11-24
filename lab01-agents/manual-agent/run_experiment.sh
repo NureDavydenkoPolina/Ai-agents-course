@@ -14,9 +14,9 @@ if [ "$#" -gt 0 ]; then idx=("$@"); else idx=(1 2 3 4 5); fi
 first=1
 for n in "${idx[@]}"; do
   i=$((n-1))
-  if [ "$first" -eq 0 ]; then echo "[пауза 65 с: ліміт 5 запитів на хвилину]"; sleep 65; fi
+  if [ "$first" -eq 0 ]; then echo "[пауза 65 с: ліміт 5 запитів на хвилину]"; sleep "${PAUSE:-65}"; fi
   first=0
-  out="experiments/q${n}_${types[$i]}_${mode}.txt"
+  out="experiments/q${n}_${types[$i]}_${mode}${SUFFIX}.txt"
   echo "=== ${types[$i]}: ${queries[$i]} ($mode) ==="
   uv run python -W ignore main.py "${queries[$i]}" --mode "$mode" 2>&1 | tee "$out"
 done
