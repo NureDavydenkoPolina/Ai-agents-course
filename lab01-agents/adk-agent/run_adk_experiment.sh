@@ -14,9 +14,9 @@ TIMEFORMAT='[adk] time: %R s'
 first=1
 for n in "${idx[@]}"; do
   i=$((n-1))
-  if [ "$first" -eq 0 ]; then echo "[пауза 65 с: ліміт 5 запитів на хвилину]"; sleep 65; fi
+  if [ "$first" -eq 0 ]; then echo "[пауза 65 с: ліміт 5 запитів на хвилину]"; sleep "${PAUSE:-65}"; fi
   first=0
-  out="experiments/q${n}_${types[$i]}_adk.txt"
+  out="experiments/q${n}_${types[$i]}_${SUFFIX:-adk}.txt"
   echo "=== ${types[$i]}: ${queries[$i]} (adk) ==="
   { time agents-cli run "${queries[$i]}"; } 2>&1 | tee "$out"
 done

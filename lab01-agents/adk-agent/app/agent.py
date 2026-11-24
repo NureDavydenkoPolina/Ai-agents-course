@@ -1,3 +1,5 @@
+import os
+
 from google.adk.agents import Agent
 from google.adk.apps import App
 from google.adk.models import Gemini
@@ -33,12 +35,22 @@ LIMITATIONS: не виконуй дій, для яких немає інстру
 не пиши і не виправляй код користувача.
 """
 
-root_agent = Agent(
-    name="root_agent",
-    model=Gemini(
+
+def _build_model():
+    """Gemini API за замовчуванням; локальна модель Ollama при USE_OLLAMA=1."""
+    if os.getenv("USE_OLLAMA") == "1":
+        from google.adk.models.lite_llm import LiteLlm
+
+        return LiteLlm(model="ollama_chat/qwen2.5:7b")
+    return Gemini(
         model=MODEL,
         retry_options=types.HttpRetryOptions(attempts=3),
-    ),
+    )
+
+
+root_agent = Agent(
+    name="root_agent",
+    model=_build_model(),
     instruction=INSTRUCTION,
     tools=[lookup_renpy_statement, list_by_category],
 )

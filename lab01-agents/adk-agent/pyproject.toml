@@ -15,6 +15,7 @@ dependencies = [
     "a2a-sdk[http-server]>=1.0,<2",
     "aiohttp>=3.13.4",
     "google-cloud-logging>=3.12.0,<4.0.0",
+    "litellm>=1.96.2",
 ]
 requires-python = ">=3.11,<3.14"
 
